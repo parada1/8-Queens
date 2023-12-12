@@ -7,7 +7,7 @@ MAX_FIL = 1000
 MAX_COL = 8
 MAX_PADRES = 500    
 MAX_ITER = 2000
-PROB_MUTACION =0.95
+PROB_MUTACION =0.05 #This is 5% probavility of mutation
 
 class TableroAjedrez(tk.Tk):
     def __init__(self):
@@ -39,7 +39,7 @@ def crossover(i1, i2, p):
         aux = i1[col]
         i1[col] = i2[col]
         i2[col] = aux
-        if random() > PROB_MUTACION:
+        if random() > 1-PROB_MUTACION:
             i1[randint(0,7)]=randint(0,7)
             i2[randint(0,7)]=randint(0,7)
         return(i1,i2)
