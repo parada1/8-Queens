@@ -57,25 +57,6 @@ def evaluar_aptitud(solucion):
     else:
         return 1/ataques
 
-def fit(s):
-    r= len(s)-len(np.unique(s))
-    t=np.zeros((8,8),dtype=int)
-    for col in range(8):
-        t[(s[col])][col]=1
-    f=0
-    for fil in range(8):
-        for col in range(8):
-            if t[fil][col] == 1:
-                for i in range(8):
-                    for j in range(8):
-                        if ((i+j == fil + col) and (t[i][j]==1)) or ((i-j == fil - col) and (t[i][j]==1)) :
-                            f=f+1
-    f-=8
-    if f+r == 0:
-        return(0)
-    else:    
-        return(1/(f+r))
-
 def calcula_fitness(sol, iter):
   #Calcula el fitness de todos los individuos de la poblacion
     fitness = np.zeros(MAX_FIL)
