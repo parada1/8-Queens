@@ -7,7 +7,7 @@ MAX_FIL = 1000
 MAX_COL = 8
 MAX_PADRES = 500    
 MAX_ITER = 2000
-PROB_MUTACION =0.05 #This is 5% probavility of mutation
+PROB_MUTACION =0.05 #This is 5% probability of mutation
 
 class TableroAjedrez(tk.Tk):
     def __init__(self):
