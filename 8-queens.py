@@ -3,10 +3,10 @@ from random import *
 import tkinter as tk
 
 
-MAX_FIL = 1000
+MAX_FIL = 10000
 MAX_COL = 8
-MAX_PADRES = 500    
-MAX_ITER = 2000
+MAX_PADRES = 5000    
+MAX_ITER = 5000
 PROB_MUTACION =0.05 #This is 5% probability of mutation
 
 class TableroAjedrez(tk.Tk):
@@ -56,21 +56,34 @@ def evaluar_aptitud(solucion):
         return 0
     else:
         return 1/ataques
+def show_solution(soluciones_unicas):
+    for s in soluciones_unicas:
+        sol_mostrar = string_to_array(s)
+        app = TableroAjedrez()
+        for col in range(8):
+            app.pintar_casilla_roja(sol_mostrar[col],col)
+        app.mainloop()
+def string_to_array(s):
+    lista2 =[]
+    for i in range(len(s)):
+        lista2.append(int(s[i]))
+    return np.array(lista2)
 
-def calcula_fitness(sol, iter):
+def array_to_string(a):
+    s=""
+    for n in a:
+        s=s+str(n)
+    return str(s)
+
+def calcula_fitness(sol, iter,cero_ataques):
   #Calcula el fitness de todos los individuos de la poblacion
+    cero_ataques_unicos=[]
     fitness = np.zeros(MAX_FIL)
     for fil in range(MAX_FIL):
         fitness[fil]=evaluar_aptitud(sol[fil][:])
         if fitness[fil]==0:
-            print("Iteración {} Solución: {}".format(iter, sol[fil][:], end=' '))
-            app = TableroAjedrez()
-            for col in range(8):
-                app.pintar_casilla_roja(sol[fil][col],col)
-            app.mainloop()
-            for fil in range(MAX_FIL):
-                print(sol[fil][:])
-            exit(0)
+            print("Iteración {} Solución: {}".format(iter, sol[fil][:]))
+            cero_ataques.append(array_to_string(sol[fil][:]))
     #Normaliza el fitness    
     for fil in range(MAX_FIL):
         fitness[fil]= fitness[fil] / np.sum(fitness)
@@ -86,10 +99,10 @@ def ini_poblacion():
 
 def main():
     sol = ini_poblacion()
-       
+    cero_ataques=[]  
     for iter in range(MAX_ITER):
         #Calcula el fitness de todos los individuos de la poblacion
-        fitness = calcula_fitness(sol, iter)
+        fitness = calcula_fitness(sol, iter,cero_ataques)
         sol_usada=np.zeros(MAX_FIL, dtype=int)
         #Selecion de MAX_PADRES padres
         
@@ -112,13 +125,12 @@ def main():
         hijos = np.zeros((MAX_PADRES,8), dtype=int)
         for i in range(0,MAX_PADRES,2):
             hijos[i][:], hijos[i+1][:]=crossover(padres[i][:], padres[i+1][:], 4)
-
-      
         #Remplazo aleatorio
         for i in range(MAX_PADRES):
             sol[randint(0,MAX_FIL-1)][:]=hijos[i][:]
-  
-           
+    cero_ataques=list(set(cero_ataques))
+    print(cero_ataques)
+    show_solution(cero_ataques)       
 
 if __name__ == "__main__":
     main()
