@@ -3,10 +3,10 @@ from random import *
 import tkinter as tk
 
 
-MAX_FIL = 10000
+MAX_FIL = 2000
 MAX_COL = 8
-MAX_PADRES = 5000    
-MAX_ITER = 5000
+MAX_PADRES = 500    
+MAX_ITER = 2000
 PROB_MUTACION =0.05 #This is 5% probability of mutation
 
 class TableroAjedrez(tk.Tk):
